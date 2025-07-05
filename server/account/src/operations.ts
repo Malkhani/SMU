@@ -151,6 +151,14 @@ export async function login (
   }
 ): Promise<LoginInfo> {
   const { email, password } = params
+    // ─── DOMAIN RESTRICTION ─────────────────────────────────────
+  if (!email.toLowerCase().endsWith('@sammu.co')) {
+    throw new PlatformError(
+      new Status(Severity.ERROR, platform.status.Forbidden, { reason: 'Email domain not allowed' })
+    )
+  }
+  // ─────────────────────────────────────────────────────────────
+
 
   if (email == null || password == null || email === '' || password === '') {
     throw new PlatformError(new Status(Severity.ERROR, platform.status.BadRequest, {}))
@@ -251,6 +259,14 @@ export async function signUp (
   meta?: Meta
 ): Promise<LoginInfo> {
   const { email, password, firstName, lastName } = params
+    // ─── DOMAIN RESTRICTION ─────────────────────────────────────
+  if (!email.toLowerCase().endsWith('@sammu.co')) {
+    throw new PlatformError(
+      new Status(Severity.ERROR, platform.status.Forbidden, { reason: 'Email domain not allowed' })
+    )
+  }
+  // ─────────────────────────────────────────────────────────────
+
 
   if (email == null || password == null || firstName == null || email === '' || password === '' || firstName === '') {
     throw new PlatformError(new Status(Severity.ERROR, platform.status.BadRequest, {}))
